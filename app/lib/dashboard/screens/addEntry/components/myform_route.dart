@@ -55,6 +55,12 @@ class _AddEntryListFormWidgetState extends State<AddEntryListFormWidget> {
       builder: (context, formModel, child) {
         formModel.recievingDetailsControl!.value =
             formModel.recievingDetailsControl!.value ?? "Unit 1";
+        if (formModel.itemsListControl.rawValue.isEmpty) {
+          formModel.addItemsListItem(
+            const SampleItem(packQuantity: "1"),
+          );
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -346,7 +352,8 @@ class _AddEntryListFormWidgetState extends State<AddEntryListFormWidget> {
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           shadowColor: Colors.grey,
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor:
+                              const Color.fromARGB(255, 44, 158, 98),
                           shape: const CircleBorder(),
                         ),
                         child: const Padding(
@@ -427,12 +434,13 @@ class _AddEntryListFormWidgetState extends State<AddEntryListFormWidget> {
                             sm: 3,
                             md: 3,
                             lg: 1,
-                            aligment: Alignment.bottomLeft,
-                            padding: const EdgeInsets.only(left: 20),
+                            // aligment: Alignment.bottomLeft,
+                            // padding: const EdgeInsets.only(left: 20),
                             child: IconButton(
                               icon: const Icon(
                                 Icons.delete,
                                 color: Colors.red,
+                                size: 35,
                               ),
                               onPressed: () {
                                 formModel.removeItemsListItemAtIndex(i);
@@ -488,7 +496,7 @@ class _AddEntryListFormWidgetState extends State<AddEntryListFormWidget> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: const Color.fromARGB(255, 44, 158, 98),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),

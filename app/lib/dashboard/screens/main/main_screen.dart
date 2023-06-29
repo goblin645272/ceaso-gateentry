@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentPage = 1;
+  int currentPage = 0;
 
   void onpress(int selectedpage) {
     if (currentPage != selectedpage) {

@@ -12,13 +12,17 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color.fromARGB(255, 236, 243, 235),
       child: ListView(
         children: [
           DrawerHeader(
             curve: Curves.bounceIn,
             child: Image.asset(
-              "assets/images/illustration-1.png",
+              "assets/images/logo-2.png",
             ),
+          ),
+          const SizedBox(
+            height: 40,
           ),
           DrawerListTile(
             title: "Add gate entry",
@@ -98,7 +102,7 @@ class DrawerListTile extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: const TextStyle(color: Colors.black, fontSize: 21),
+        style: const TextStyle(color: Colors.black, fontSize: 25),
       ),
     );
   }

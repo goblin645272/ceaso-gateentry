@@ -60,7 +60,7 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            "assets/images/illustration-2.png",
+            "assets/images/logo-2.png",
             height: 38,
           ),
           if (!Responsive.isMobile(context))
@@ -68,7 +68,7 @@ class ProfileCard extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
               child: Text(
-                "${Provider.of<User>(context, listen: false).name!}(${Provider.of<User>(context, listen: false).employeeCode})",
+                Provider.of<User>(context, listen: false).name!,
                 style: const TextStyle(fontSize: 21),
               ),
             ),

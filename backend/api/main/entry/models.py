@@ -43,7 +43,7 @@ class Entry:
              {
                "$set":{ 
                    "collection_details": {
-                    "employee_name": f"{str(employee_code)} ({User().get_by_employee_code(int(employee_code))['name']})",
+                    "employee_name": f"{User().get_by_employee_code(int(employee_code))['name']}",
                     "timestamp": datetime.datetime.now().isoformat()
                     }
                 }

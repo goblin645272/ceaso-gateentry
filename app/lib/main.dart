@@ -142,6 +142,11 @@ class _BodyState extends State<Body> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Image.asset(
+                    "assets/images/logo-2.png",
+                    height: 300,
+                    width: 300,
+                  ),
                   const Text(
                     'Sign In to \nGate Entry',
                     style: TextStyle(
@@ -149,13 +154,10 @@ class _BodyState extends State<Body> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Image.asset(
-                    'assets/images/illustration-2.png',
-                    width: 400,
-                  ),
+                  // Image.asset(
+                  //   'assets/images/illustration-2.png',
+                  //   width: 400,
+                  // ),
                 ],
               ),
               Image.asset(
@@ -341,7 +343,7 @@ class _BodyState extends State<Body> {
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: const Color.fromARGB(255, 44, 158, 98),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),

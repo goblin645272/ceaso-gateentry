@@ -48,9 +48,9 @@ def addEntry(current_user):
 
         today = datetime.datetime.now()
         if today.month > 2:
-            gateEntryNumber += str(today.year) + "-" + str(today.year + 1)[-2:]
+            gateEntryNumber += str(today.year)[-2:] + "-" + str(today.year + 1)[-2:]
         else:
-            gateEntryNumber += str(today.year - 1) + "-" + str(today.year)[-2:]
+            gateEntryNumber += str(today.year - 1)[-2:] + "-" + str(today.year)[-2:]
 
         gateEntryNumber += "/" +today.strftime("%b").upper() + "/" +ans
 

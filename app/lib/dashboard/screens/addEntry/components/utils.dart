@@ -47,11 +47,14 @@ class CustomReactiveTextFieldWithLabel extends StatelessWidget {
           formControl: formControl,
           formControlName: formControlName,
           maxLines: null,
+          textAlign: key12131.toString().contains("Pack Quantity")
+              ? TextAlign.center
+              : TextAlign.left,
           style: const TextStyle(fontSize: 20),
           decoration: InputDecoration(
             hintText: hinttext,
             filled: true,
-            fillColor: Colors.blueGrey[50],
+            fillColor: const Color.fromARGB(255, 236, 243, 235),
             hintStyle: const TextStyle(color: Colors.grey, fontSize: 21),
             contentPadding: const EdgeInsets.only(
               left: 20,
@@ -360,7 +363,7 @@ class _CustomReactiveAutoFillDropdownFieldState
           decoration: InputDecoration(
             hintText: widget.hinttext,
             filled: true,
-            fillColor: Colors.blueGrey[50],
+            fillColor: const Color.fromARGB(255, 236, 243, 235),
             hintStyle: const TextStyle(color: Colors.grey, fontSize: 21),
             contentPadding: const EdgeInsets.only(
               left: 20,
@@ -574,7 +577,7 @@ class CustomReactiveDropdownField extends StatelessWidget {
           formControlName: formControlName,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.blueGrey[50],
+            fillColor: const Color.fromARGB(255, 236, 243, 235),
             hintStyle: const TextStyle(color: Colors.grey, fontSize: 21),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(

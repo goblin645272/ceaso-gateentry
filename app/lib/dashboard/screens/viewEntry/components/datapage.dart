@@ -4,6 +4,7 @@ import 'package:app/dashboard/controllers/user_controller.dart';
 import 'package:app/dashboard/screens/viewEntry/components/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_table/responsive_table.dart';
 import 'package:simple_grid/simple_grid.dart';
@@ -30,6 +31,7 @@ class _DataPageState extends State<DataPage> {
   List<User> collectionUsers = [];
   // ignore: unused_field
   final String _selectableKey = "uniqueId";
+  var formatter = DateFormat('dd/MM/yy  hh:mm');
 
   String? _sortColumn;
   bool _sortAscending = true;
@@ -112,7 +114,8 @@ class _DataPageState extends State<DataPage> {
                       item['customer_details']!['name']!
                           .toLowerCase()
                           .contains(value.toLowerCase()) ||
-                      "${item['timestamp']!.split("T")[0].split("-").reversed.join("/")} ${item['timestamp']!.split("T")[1].split(".")[0]}"
+                      formatter
+                          .format(DateTime.parse(item['timestamp']))
                           .toLowerCase()
                           .contains(value.toLowerCase()),
                 )
@@ -140,14 +143,13 @@ class _DataPageState extends State<DataPage> {
         value: "uniqueId",
         show: true,
         sortable: true,
-        editable: true,
         flex: 1,
         textAlign: TextAlign.center,
         sourceBuilder: (value, row) => Text(
           value.toString(),
           textAlign: TextAlign.center,
           style: const TextStyle(
-            fontSize: 18,
+            fontSize: 20,
           ),
         ),
       ),
@@ -163,7 +165,7 @@ class _DataPageState extends State<DataPage> {
             value['name'].toString(),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 21,
+              fontSize: 20,
             ),
           );
         },
@@ -179,7 +181,7 @@ class _DataPageState extends State<DataPage> {
           value.length.toString(),
           textAlign: TextAlign.center,
           style: const TextStyle(
-            fontSize: 21,
+            fontSize: 20,
           ),
         ),
       ),
@@ -190,10 +192,10 @@ class _DataPageState extends State<DataPage> {
         sortable: true,
         textAlign: TextAlign.center,
         sourceBuilder: (value, row) => Text(
-          "${value.split("T")[0].split("-").reversed.join("/")} ${value.split("T")[1].split(".")[0]}",
+          formatter.format(DateTime.parse(value)),
           textAlign: TextAlign.center,
           style: const TextStyle(
-            fontSize: 21,
+            fontSize: 20,
           ),
         ),
       ),
@@ -205,11 +207,13 @@ class _DataPageState extends State<DataPage> {
         textAlign: TextAlign.center,
         sourceBuilder: (value, row) => Text(
           value != null
-              ? "${value['timestamp'].split("T")[0].split("-").reversed.join("/")} ${value['timestamp'].split("T")[1].split(".")[0]}"
+              ? formatter.format(DateTime.parse(value['timestamp']))
               : "Not collected",
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 21,
+          style: TextStyle(
+            fontSize: 20,
+            color: value != null ? Colors.black : Colors.red,
+            fontWeight: value != null ? FontWeight.normal : FontWeight.w800,
           ),
         ),
       ),
@@ -217,27 +221,27 @@ class _DataPageState extends State<DataPage> {
         text: "Emp",
         value: "collection_details",
         show: true,
-        sortable: true,
-        editable: true,
         textAlign: TextAlign.center,
         sourceBuilder: (value, row) => value != null
             ? Text(
                 value != null ? value['employee_name'] : "Not collected",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 21,
+                  fontSize: 20,
                 ),
               )
             : DropdownButtonFormField2(
                 isExpanded: true,
                 hint: const Text(
                   "Employee code",
-                  style: TextStyle(fontSize: 21, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.blueGrey[50],
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 21),
+                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 20),
+                  alignLabelWithHint: true,
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       color: Color.fromARGB(255, 0, 0, 0),
@@ -272,11 +276,13 @@ class _DataPageState extends State<DataPage> {
                 items: collectionUsers
                     .map(
                       (item) => DropdownMenuItem<int>(
+                        alignment: Alignment.center,
                         value: item.employeeCode,
                         child: Text(
-                          item.employeeCode.toString() + item.name.toString(),
+                          item.employeeCode.toString(),
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 21,
+                            fontSize: 20,
                           ),
                         ),
                       ),
@@ -363,7 +369,7 @@ class _DataPageState extends State<DataPage> {
         showSelect: _showSelect,
         autoHeight: false,
         dropContainer: (data) {
-          return _DropDownContainer(data: data);
+          return _DropDownContainer(data: data, formatter: formatter);
         },
         onChangedRow: (value, header) {
           print(value.toString() + header.toString());
@@ -401,6 +407,24 @@ class _DataPageState extends State<DataPage> {
                     .length
                     .toString()
                     .compareTo(b["$_sortColumn"].length.toString()));
+              }
+            } else if (_sortColumn == "collection_details") {
+              if (_sortAscending) {
+                _sourceFiltered.sort((a, b) => (b["$_sortColumn"] != null
+                        ? b["$_sortColumn"]['timestamp']
+                        : "Not collected")
+                    .toString()
+                    .compareTo(a["$_sortColumn"] != null
+                        ? a["$_sortColumn"]['timestamp']
+                        : "Not collected"));
+              } else {
+                _sourceFiltered.sort((a, b) => (a["$_sortColumn"] != null
+                        ? a["$_sortColumn"]['timestamp']
+                        : "Not collected")
+                    .toString()
+                    .compareTo(b["$_sortColumn"] != null
+                        ? b["$_sortColumn"]['timestamp']
+                        : "Not collected"));
               }
             } else {
               if (_sortAscending) {
@@ -534,7 +558,10 @@ class _DataPageState extends State<DataPage> {
 
 class _DropDownContainer extends StatelessWidget {
   final Map<String, dynamic> data;
-  const _DropDownContainer({Key? key, required this.data}) : super(key: key);
+  final formatter;
+  const _DropDownContainer(
+      {Key? key, required this.data, required this.formatter})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -609,7 +636,7 @@ class _DropDownContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
-                    "Sample recieved: ${data['timestamp'].split("T")[0].split("-").reversed.join("/")} ${data['timestamp'].split("T")[1].split(".")[0]}",
+                    "Sample recieved: ${formatter.format(DateTime.parse(data['timestamp']))}",
                     style: const TextStyle(
                       fontSize: 21,
                     ),
@@ -650,7 +677,7 @@ class _DropDownContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
-                    "Collected by: ${data['collection_details'] != null ? data['collection_details']['employee_name'] : 'NA'}",
+                    "Collected by: ${data['collection_details'] != null ? data['collection_details']['employee_name'] : 'Not collected'}",
                     style: const TextStyle(
                       fontSize: 21,
                     ),
@@ -670,7 +697,7 @@ class _DropDownContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
-                    "Sample collected: ${data['collection_details'] != null ? '${data['collection_details']['timestamp'].split("T")[0].split("-").reversed.join("/")}  ${data['collection_details']['timestamp'].split("T")[1].split(".")[0]}' : 'NA'}",
+                    "Collected on: ${data['collection_details'] != null ? formatter.format(DateTime.parse(data['collection_details']['timestamp'])) : 'Not collected'}",
                     style: const TextStyle(
                       fontSize: 21,
                     ),
