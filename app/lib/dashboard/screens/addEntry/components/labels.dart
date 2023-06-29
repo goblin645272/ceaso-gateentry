@@ -1,6 +1,6 @@
 import 'package:app/dashboard/screens/addEntry/components/naming.dart';
 
-const errorRequired = 'required';
+const errorRequired = 'Required';
 
 const recievingDetailsName = Naming('Recieving Details');
 
